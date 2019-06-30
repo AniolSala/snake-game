@@ -191,15 +191,16 @@ class MyWindow(pyglet.window.Window):
         return vertex
 
     def change_vel(self, vel_x, vel_y):
-        next_head_pos_x = self.snake[-1][0] + vel_x
-        next_head_pos_y = self.snake[-1][1] + vel_y
+        if self.pause != 1:
+            next_head_pos_x = self.snake[-1][0] + vel_x
+            next_head_pos_y = self.snake[-1][1] + vel_y
 
-        # Check if we are trying to move backwards!
-        dif_x = abs(next_head_pos_x - self.snake[-2][0])
-        dif_y = abs(next_head_pos_y - self.snake[-2][1])
-        if dif_x > 1. and dif_y > 1.:
-            self.vel_x = vel_x
-            self.vel_y = vel_y
+            # Check if we are trying to move backwards!
+            dif_x = abs(next_head_pos_x - self.snake[-2][0])
+            dif_y = abs(next_head_pos_y - self.snake[-2][1])
+            if dif_x > 1. and dif_y > 1.:
+                self.vel_x = vel_x
+                self.vel_y = vel_y
 
     def check_block_pos(self):
         next_head_pos_x = self.snake[-1][0] + self.vel_x
