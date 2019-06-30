@@ -36,7 +36,7 @@ class MyWindow(pyglet.window.Window):
         # Display a counter
         self.counter = 0
         self.best_score = 0
-        self.label = pyglet.text.Label(
+        self.score = pyglet.text.Label(
             '',
             font_name='Times New Roman',
             font_size=12,
@@ -54,6 +54,8 @@ class MyWindow(pyglet.window.Window):
         self.eaten = False
         self.dead = False
         self.game_over = False
+
+        self.pause = 0
 
     def on_draw(self):
         # Window features #######################################
@@ -109,22 +111,21 @@ class MyWindow(pyglet.window.Window):
 
         # --- Draw the counter -----------------------------
         text = 'Score:\t{}\nBest:\t{}'.format(self.counter, self.best_score)
-        # self.label.text = 'Score: {}\nBest of this game: {}'.format(
-        #     self.counter, self.best_score)
-        self.label.text = text
-        self.label.draw()
+        self.score.text = text
+        self.score.draw()
 
     def update(self, dt):
         if self.dead is False:
-            # Check if the snake has eaten the food
-            snake_head = self.snake[-1]
-            dif_food_snake_x = abs(snake_head[0] - self.food[0])
-            dif_food_snake_y = abs(snake_head[1] - self.food[1])
-            if dif_food_snake_x <= 1. and dif_food_snake_y <= 1.:
-                self.eat(self.food[0], self.food[1])
-                self.counter += 1
+            if self.pause != 1:
+                # Check if the snake has eaten the food
+                snake_head = self.snake[-1]
+                dif_food_snake_x = abs(snake_head[0] - self.food[0])
+                dif_food_snake_y = abs(snake_head[1] - self.food[1])
+                if dif_food_snake_x <= 1. and dif_food_snake_y <= 1.:
+                    self.eat(self.food[0], self.food[1])
+                    self.counter += 1
 
-            self.move()
+                self.move()
         else:
             if self.game_over is False:
                 time.sleep(1)
@@ -234,13 +235,15 @@ if __name__ == '__main__':
         '''
         Move the snake with the keyboard arrows
         '''
-        if symbol == key.UP or symbol == key.W:
+        if symbol == key.P:
+            world.pause = (world.pause + 1) % 2
+        elif symbol == key.UP or symbol == key.W:
             world.change_vel(0, snake_vel)
-        if symbol == key.DOWN or symbol == key.S:
+        elif symbol == key.DOWN or symbol == key.S:
             world.change_vel(0, -snake_vel)
-        if symbol == key.RIGHT or symbol == key.D:
+        elif symbol == key.RIGHT or symbol == key.D:
             world.change_vel(snake_vel, 0)
-        if symbol == key.LEFT or symbol == key.A:
+        elif symbol == key.LEFT or symbol == key.A:
             world.change_vel(-snake_vel, 0)
 
     pyglet.clock.schedule_interval(world.update, 1 / 20.)
