@@ -82,7 +82,7 @@ class MyWindow(pyglet.window.Window):
         food_vertices.draw(pyglet.gl.GL_POLYGON)
 
         # --- Draw the snake -----------------------------
-        for i, block in enumerate(self.snake):
+        for block in self.snake:
             # Check the boundaries
             if block[0] < 0:
                 block[0] += self.width
@@ -94,7 +94,7 @@ class MyWindow(pyglet.window.Window):
             elif block[1] > self.height - snake_vel:
                 block[1] = 0
 
-            if i == len(self.snake) - 1:
+            if block == self.snake[-1]:
                 color = self.head_color
             else:
                 color = self.tail_color
