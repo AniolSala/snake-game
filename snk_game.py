@@ -28,6 +28,7 @@ class MyWindow(pyglet.window.Window):
         self.vel_y = 0
         self.head_color = [.5, 8., .6, 1.] * 4
         self.tail_color = [.0, 1., .0, 1.] * 4
+        self.red_size = 3  # Reduce its size this % on drawing
 
         # Food stuff
         self.food_color = [1., 0., 0., 1.] * 4
@@ -176,17 +177,17 @@ class MyWindow(pyglet.window.Window):
         vertex = []
 
         # Add the four vertex to the vertex list
-        vertex.append(pos_x)
-        vertex.append(pos_y)
+        vertex.append(pos_x + self.red_size)
+        vertex.append(pos_y + self.red_size)
 
-        vertex.append(pos_x)
-        vertex.append(pos_y + snake_vel)
+        vertex.append(pos_x + self.red_size)
+        vertex.append(pos_y + snake_vel - self.red_size)
 
-        vertex.append(pos_x + snake_vel)
-        vertex.append(pos_y + snake_vel)
+        vertex.append(pos_x + snake_vel - self.red_size)
+        vertex.append(pos_y + snake_vel - self.red_size)
 
-        vertex.append(pos_x + snake_vel)
-        vertex.append(pos_y)
+        vertex.append(pos_x + snake_vel - self.red_size)
+        vertex.append(pos_y + self.red_size)
 
         return vertex
 
